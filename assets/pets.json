@@ -1,0 +1,50 @@
+{
+	"categories": {
+		"cats": [
+			{
+				"name": "FirstCat",
+				"breed": "Abyssinian",
+				"isFluffy": false,
+				"color": "fawn",
+				"price": 1.50
+			},
+			{
+				"name": "SecondCat",
+				"breed": "sdfsdfg",
+				"isFluffy": true,
+				"color": "sadf",
+				"price": 3.50
+			}
+		],
+		"dogs": [
+			{
+				"name": "FirstDog",
+				"breed": "Abyssinian",
+				"color": "fawn",
+				"price": 1.50
+			},
+			{
+				"name": "SecondDog",
+				"breed": "sdfsdfg",
+				"color": "sadf",
+				"price": 3.50
+			}
+		],
+		"hamsters": [
+			{
+				"name": "FirstHumster",
+				"breed": "Abyssinian",
+				"isFluffy": false,
+				"color": "fawn",
+				"price": 1.50
+			},
+			{
+				"name": "SecondHumster",
+				"breed": "sdfsdfg",
+				"isFluffy": true,
+				"color": "sadf",
+				"price": 3.50
+			}
+		]
+	}
+}
