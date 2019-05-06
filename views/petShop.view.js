@@ -17,8 +17,33 @@ export class PetShopView {
 	}
 
 	renderCategories(categories) {
+		// create templates
+		// add listeners
+		// display
+		// top categories maybe shouldn't have any handlers
 		this.renderTopCategories(categories.topCategories);
 		this.renderMainCategories(categories.mainCategories);
+	}
+
+	renderTopCategories(topCategories) {
+		let categoriesTemplate = document.querySelector('.top-categories');
+		let categoryList = document.createElement('ul');
+
+		let listItemNumber = 0;
+		
+		for (let category in topCategories) {
+			categoryList.innerHTML += `<li>${category}</li>`;
+
+			// this.addListener(categoryList.children[listItemNumber]);
+			
+			listItemNumber++;
+		}
+
+		Array.from(categoryList.children).forEach(item => {
+			this.addListener(item);
+		});
+		
+		categoriesTemplate.appendChild(categoryList);
 	}
 
 	renderMainCategories(mainCategories) {
@@ -32,15 +57,8 @@ export class PetShopView {
 		categoriesTemplate.appendChild(categoryList);
 	}
 
-	renderTopCategories(topCategories) {
-		let categoriesTemplate = document.querySelector('.top-categories');
-		let categoryList = document.createElement('ul');
-		
-		for (let category in topCategories) {
-			categoryList.innerHTML += `<li>${category}</li>`;
-		}
-
-		categoriesTemplate.appendChild(categoryList);
+	addListener(element) {
+		element.addEventListener('click', this.controller.onClick);
 	}
 
 }

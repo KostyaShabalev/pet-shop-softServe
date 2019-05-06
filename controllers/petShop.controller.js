@@ -11,6 +11,8 @@ export class PetShopController {
 	constructor(petShopElement) {
 		this.petShopModel = new PetShopModel();
 		this.petShopView = new PetShopView(petShopElement);
+
+		this.petShopView.controller = this;
 	}
 
 	initiatePetShop() {
@@ -76,6 +78,10 @@ export class PetShopController {
 
 	renderCategories(categories) {
 		this.petShopView.renderCategories(categories);
+	}
+
+	onClick(event) {
+		console.log(event.target);
 	}
 
 }
