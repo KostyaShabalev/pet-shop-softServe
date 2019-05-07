@@ -1,57 +1,98 @@
 export class PetShopView {
 
-  get mainCategoriesTemplate() {
+	get mainElementContentTemplate() {
 
-    return `
-			<div class="categories main-categories">
-        <h3 class="category-name"></h3>
-        <ul class="category-items-list"></ul>
-		 	</div>`;
-  }
-
-  get topCategoriesTemplate() {
-    
-    return `
-			<div class="categories main-categories">
-        <h3 class="category-name"></h3>
-        <ul class="category-items-list"></ul>
-		 	</div>`;
-  }
+		return `
+			<div class="categories-container top-categories" style="display: flex"></div>
+			<div class="main-pets-container" style="display: flex">
+				<div class="categories-container main-categories"></div>
+				<div class="pets-container">Pets</div>
+				<div class="pet-details">Details</div>
+				<div class="cart">Cart</div>
+			</div>
+		`;
+	}
 
   constructor(mainElement) {
     this.mainElement = mainElement;
-    this.elements = {};
+		this.elements = {};
+		
+		this.mainElement.innerHTML = this.mainElementContentTemplate;
 
-    // this.mainElement.innerHTML = `${this.topCategoriesTemplate}${this.mainCategoriesTemplate}`;
-  }
+		this.addBaseElementsToView();
+	}
+
+	addBaseElementsToView() {
+		this.elements.mainCategoriesElement = this.getElement('.main-categories');
+		this.elements.topCategoriesElement = this.getElement('.top-categories');
+		this.elements.petsContainerElement = this.getElement('.pets-container');
+		this.elements.petDetailsElement = this.getElement('.pet-details');
+		this.elements.cartElement = this.getElement('.cart');
+	}
 
   renderCategories(categories) {
-    this.addCategoriesElements(categories);
+		this.addCategoriesInnerElements(categories);
+		this.addTopCategoriesItems(categories.topCategories);
     // create templates
     // add listeners
     // display
     // top categories maybe shouldn't have any handlers
-    this.renderTopCategories(categories.topCategories);
-    this.renderMainCategories(categories.mainCategories);
+    // this.renderTopCategories(categories.topCategories);
+    // this.renderMainCategories(categories.mainCategories);
   }
 
-  addCategoriesElements(categories) {
-    const mainCategoriesElement = this.createCategoryElement(categories, 'main-categories');
-    const topCategoriesElement = this.createCategoryElement(categories, 'top-categories');
+  addCategoriesInnerElements(categories) {
+		this.createCategoriesElement(categories, 'main-categories');
+		this.createCategoriesElement(categories, 'top-categories');
   }
 
-  createCategoryElement(categories, type) {
+  createCategoriesElement(categories, type) {
     const currentCategories = (type === 'main-categories') ? categories.mainCategories : categories.topCategories;
-    let categoriesElement = document.createElement('.div');
-    let categoryList = document.createElement('ul');
+		let categoriesContainer = (type === 'main-categories') ? this.elements.mainCategoriesElement : this.elements.topCategoriesElement;
 
-    categoriesElement.classList.add(`.${type}`);
-    categoriesElement.classList.add(type);
+    for (let categoryName in currentCategories) {
+			const categoryContainer = this.createCategoryContainer(categoryName);
 
-    for (let category in currentCategories) {
-      categoryList.innerHTML += `<li>${category}</li>`;
-    }
-  }
+      categoriesContainer.appendChild(categoryContainer);
+		}
+	}
+	
+	createCategoryContainer(categoryName) {
+		const categoryTitleTemplate = `<h3 class="category-title">${categoryName}</h3>`;
+		let categoryContainer = document.createElement('div');
+
+		categoryContainer.classList.add('category');
+		categoryContainer.classList.add(categoryName);
+		categoryContainer.innerHTML = categoryTitleTemplate;
+
+		return categoryContainer;
+	}
+
+	addTopCategoriesItems(topCategories) {
+		let topCategoriesContainer = this.elements.topCategoriesElement;
+
+		for (let category in topCategories) {
+			const itemList = this.createItemList(topCategories[category]);
+			let categoryContainer = topCategoriesContainer.querySelector(`.${category}`);
+
+			categoryContainer.appendChild(itemList);
+		}
+	}
+
+	createItemList(items) {
+		let list = document.createElement('ul');
+		list.classList.add('item-list');
+		
+		items.forEach(item => {
+			let listItem = document.createElement('li');
+			listItem.classList.add('pet');
+			listItem.innerHTML = `<h4 class="pet-title">${item.name || item.price}</h4>`;
+
+			list.appendChild(listItem);
+		});
+
+		return list;
+	}
 
   // fillCategoriesElements(categories) {
   //   // console.log(categories);
@@ -85,6 +126,11 @@ export class PetShopView {
 
   addListener(element) {
     element.addEventListener('click', this.controller.onClick);
-  }
+	}
+	
+	getElement(query) {
+
+		return this.mainElement.querySelector(query);
+	}
 
 }

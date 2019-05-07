@@ -21,7 +21,7 @@ export class PetShopController {
 		petsStoringPromise
 			.then(animals => {
         this.storeAnimals(animals);
-        this.fillTopCategories();
+				this.fillTopCategories();
         this.renderCategories(this.petShopModel.categories);
 			});
 	}
@@ -44,6 +44,9 @@ export class PetShopController {
 
 				return this.petShopModel.categories.mainCategories[category];
 			case 'expensive':
+
+				return this.getExpensivePets();
+			case 'white':
 
 				return this.getExpensivePets();
 		}
