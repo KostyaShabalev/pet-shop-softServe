@@ -33,10 +33,6 @@ export class PetShopView {
 		
 		for (let category in topCategories) {
 			categoryList.innerHTML += `<li>${category}</li>`;
-
-			// this.addListener(categoryList.children[listItemNumber]);
-			
-			listItemNumber++;
 		}
 
 		Array.from(categoryList.children).forEach(item => {

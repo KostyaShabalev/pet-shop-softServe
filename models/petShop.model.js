@@ -87,8 +87,6 @@ export class PetShopModel {
 				pet  = new Hamster(
 					animal.color,
 					animal.price,
-					animal.name,
-					animal.breed,
 					animal.isFluffy);
 		}
 
