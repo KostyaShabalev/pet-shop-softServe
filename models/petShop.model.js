@@ -32,7 +32,6 @@ export class PetShopModel {
 				return response.json();
 			})
 			.then(data => {
-				// this.fillTopCategories();
 				resolve(data);
 			});
 		});
@@ -72,16 +71,13 @@ export class PetShopModel {
 					animal.color,
 					animal.price,
 					animal.name,
-					animal.breed,
 					animal.isFluffy);
 				break;
 			case 'dogs':
 				pet  = new Dog(
 					animal.color,
 					animal.price,
-					animal.name,
-					animal.breed,
-					animal.isFluffy);
+					animal.name);
 				break;
 			case 'hamsters':
 				pet  = new Hamster(

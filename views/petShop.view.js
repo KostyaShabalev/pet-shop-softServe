@@ -1,60 +1,90 @@
 export class PetShopView {
 
-	get mainCategoriesTemplate() {
+  get mainCategoriesTemplate() {
 
-		return `<div class="main-categories"></div>`;
-	}
+    return `
+			<div class="categories main-categories">
+        <h3 class="category-name"></h3>
+        <ul class="category-items-list"></ul>
+		 	</div>`;
+  }
 
-	get topCategoriesTemplate() {
+  get topCategoriesTemplate() {
+    
+    return `
+			<div class="categories main-categories">
+        <h3 class="category-name"></h3>
+        <ul class="category-items-list"></ul>
+		 	</div>`;
+  }
 
-		return `<div class="top-categories"></div>`;
-	}
+  constructor(mainElement) {
+    this.mainElement = mainElement;
+    this.elements = {};
 
-	constructor(element) {
-		this.element = element;
+    // this.mainElement.innerHTML = `${this.topCategoriesTemplate}${this.mainCategoriesTemplate}`;
+  }
 
-		this.element.innerHTML = `${this.topCategoriesTemplate}${this.mainCategoriesTemplate}`;
-	}
+  renderCategories(categories) {
+    this.addCategoriesElements(categories);
+    // create templates
+    // add listeners
+    // display
+    // top categories maybe shouldn't have any handlers
+    this.renderTopCategories(categories.topCategories);
+    this.renderMainCategories(categories.mainCategories);
+  }
 
-	renderCategories(categories) {
-		// create templates
-		// add listeners
-		// display
-		// top categories maybe shouldn't have any handlers
-		this.renderTopCategories(categories.topCategories);
-		this.renderMainCategories(categories.mainCategories);
-	}
+  addCategoriesElements(categories) {
+    const mainCategoriesElement = this.createCategoryElement(categories, 'main-categories');
+    const topCategoriesElement = this.createCategoryElement(categories, 'top-categories');
+  }
 
-	renderTopCategories(topCategories) {
-		let categoriesTemplate = document.querySelector('.top-categories');
-		let categoryList = document.createElement('ul');
+  createCategoryElement(categories, type) {
+    const currentCategories = (type === 'main-categories') ? categories.mainCategories : categories.topCategories;
+    let categoriesElement = document.createElement('.div');
+    let categoryList = document.createElement('ul');
 
-		let listItemNumber = 0;
-		
-		for (let category in topCategories) {
-			categoryList.innerHTML += `<li>${category}</li>`;
-		}
+    categoriesElement.classList.add(`.${type}`);
+    categoriesElement.classList.add(type);
 
-		Array.from(categoryList.children).forEach(item => {
-			this.addListener(item);
-		});
-		
-		categoriesTemplate.appendChild(categoryList);
-	}
+    for (let category in currentCategories) {
+      categoryList.innerHTML += `<li>${category}</li>`;
+    }
+  }
 
-	renderMainCategories(mainCategories) {
-		let categoriesTemplate = document.querySelector('.main-categories');
-		let categoryList = document.createElement('ul');
-		
-		for (let category in mainCategories) {
-			categoryList.innerHTML += `<li>${category}</li>`;
-		}
+  // fillCategoriesElements(categories) {
+  //   // console.log(categories);
+  // }
 
-		categoriesTemplate.appendChild(categoryList);
-	}
+  renderTopCategories(topCategories) {
+    let categoriesTemplate = document.querySelector('.top-categories');
+    let categoryList = document.createElement('ul');
 
-	addListener(element) {
-		element.addEventListener('click', this.controller.onClick);
-	}
+    for (let category in topCategories) {
+      categoryList.innerHTML += `<li>${category}</li>`;
+    }
+
+    Array.from(categoryList.children).forEach(item => {
+      this.addListener(item);
+    });
+
+    categoriesTemplate.appendChild(categoryList);
+  }
+
+  renderMainCategories(mainCategories) {
+    let categoriesTemplate = document.querySelector('.main-categories');
+    let categoryList = document.createElement('ul');
+
+    for (let category in mainCategories) {
+      categoryList.innerHTML += `<li>${category}</li>`;
+    }
+
+    categoriesTemplate.appendChild(categoryList);
+  }
+
+  addListener(element) {
+    element.addEventListener('click', this.controller.onClick);
+  }
 
 }
