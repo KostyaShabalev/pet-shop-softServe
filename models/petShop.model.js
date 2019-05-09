@@ -32,7 +32,8 @@ export class PetShopModel {
 				return response.json();
 			})
 			.then(data => {
-				resolve(data);
+				this.storeRecievedAnimals(data);
+				resolve(this.petStore);
 			});
 		});
 
@@ -45,15 +46,18 @@ export class PetShopModel {
 		return fetch(url);
 	}
 
-	sortRecievedAnimals(animals) {
+	storeRecievedAnimals(animals) {
 		let store = this.petStore;
 		let mainCategories = this.categories.mainCategories;
+		let petId = 0;
 
 		for (let category in animals.categories) {
 			const animalsOfCurrentCategory = animals.categories[category];
 
 			const pets = animalsOfCurrentCategory.map( animal => {
 				const newPet = this.createPet(animal, category);
+				petId++;
+				newPet.id = petId;
 
 				return newPet;
 			});

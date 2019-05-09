@@ -4,11 +4,11 @@ export class PetShopView {
 
 		return `
 			<div class="categories-container top-categories" style="display: flex"></div>
-			<div class="main-pets-container" style="display: flex">
+			<div class="pets-container-main" style="display: flex">
 				<div class="categories-container main-categories"></div>
-				<div class="pets-container">Pets</div>
-				<div class="pet-details">Details</div>
-				<div class="cart">Cart</div>
+				<div class="pets-container disabled"></div>
+				<div class="pet-details disabled"></div>
+				<div class="cart disabled"></div>
 			</div>
 		`;
 	}
@@ -33,12 +33,8 @@ export class PetShopView {
   renderCategories(categories) {
 		this.addCategoriesInnerElements(categories);
 		this.addTopCategoriesItems(categories.topCategories);
-    // create templates
-    // add listeners
-    // display
-    // top categories maybe shouldn't have any handlers
-    // this.renderTopCategories(categories.topCategories);
-    // this.renderMainCategories(categories.mainCategories);
+		this.addMainCategoriesListeners();
+		this.addTopCategoriesListeners();
   }
 
   addCategoriesInnerElements(categories) {
@@ -47,22 +43,26 @@ export class PetShopView {
   }
 
   createCategoriesElement(categories, type) {
-    const currentCategories = (type === 'main-categories') ? categories.mainCategories : categories.topCategories;
-		let categoriesContainer = (type === 'main-categories') ? this.elements.mainCategoriesElement : this.elements.topCategoriesElement;
+		const currentCategories = (type === 'main-categories') ?
+			categories.mainCategories : categories.topCategories;
+		let categoriesContainer = (type === 'main-categories') ?
+			this.elements.mainCategoriesElement : this.elements.topCategoriesElement;
 
     for (let categoryName in currentCategories) {
-			const categoryContainer = this.createCategoryContainer(categoryName);
+			const categoryContainer = this.createCategoryContainer(categoryName, type);
 
       categoriesContainer.appendChild(categoryContainer);
 		}
 	}
 	
-	createCategoryContainer(categoryName) {
-		const categoryTitleTemplate = `<h3 class="category-title">${categoryName}</h3>`;
+	createCategoryContainer(categoryName, type) {
+		const categoryTitleTemplate = `<h2 class="category-title">${categoryName}</h2>`;
 		let categoryContainer = document.createElement('div');
+		let unicClass = (type === 'main-categories') ? 'main-category' : 'top-category';
 
 		categoryContainer.classList.add('category');
 		categoryContainer.classList.add(categoryName);
+		categoryContainer.classList.add(unicClass);
 		categoryContainer.innerHTML = categoryTitleTemplate;
 
 		return categoryContainer;
@@ -72,21 +72,22 @@ export class PetShopView {
 		let topCategoriesContainer = this.elements.topCategoriesElement;
 
 		for (let category in topCategories) {
-			const itemList = this.createItemList(topCategories[category]);
+			const petsList = this.createPetsList(topCategories[category]);
 			let categoryContainer = topCategoriesContainer.querySelector(`.${category}`);
 
-			categoryContainer.appendChild(itemList);
+			categoryContainer.appendChild(petsList);
 		}
 	}
 
-	createItemList(items) {
+	createPetsList(pets) {
 		let list = document.createElement('ul');
-		list.classList.add('item-list');
+		list.classList.add('pets-list');
 		
-		items.forEach(item => {
+		pets.forEach(item => {
 			let listItem = document.createElement('li');
 			listItem.classList.add('pet');
-			listItem.innerHTML = `<h4 class="pet-title">${item.name || item.price}</h4>`;
+			listItem.id = item.id;
+			listItem.innerHTML = `<h4 class="pet-title">${item.name || `hamster with id ${item.id}`}</h4>`;
 
 			list.appendChild(listItem);
 		});
@@ -94,40 +95,54 @@ export class PetShopView {
 		return list;
 	}
 
-  // fillCategoriesElements(categories) {
-  //   // console.log(categories);
-  // }
+	addMainCategoriesListeners() {
+		let mainCategoriesElement = this.elements.mainCategoriesElement;
+		let mainCategories = Array.from(mainCategoriesElement.children);
 
-  renderTopCategories(topCategories) {
-    let categoriesTemplate = document.querySelector('.top-categories');
-    let categoryList = document.createElement('ul');
+		mainCategories.forEach(categoryElement => {
+			categoryElement.addEventListener('mouseenter', event => {
+				this.controller.displayPetsList(event);
+			});
 
-    for (let category in topCategories) {
-      categoryList.innerHTML += `<li>${category}</li>`;
-    }
-
-    Array.from(categoryList.children).forEach(item => {
-      this.addListener(item);
-    });
-
-    categoriesTemplate.appendChild(categoryList);
-  }
-
-  renderMainCategories(mainCategories) {
-    let categoriesTemplate = document.querySelector('.main-categories');
-    let categoryList = document.createElement('ul');
-
-    for (let category in mainCategories) {
-      categoryList.innerHTML += `<li>${category}</li>`;
-    }
-
-    categoriesTemplate.appendChild(categoryList);
-  }
-
-  addListener(element) {
-    element.addEventListener('click', this.controller.onClick);
+			categoryElement.addEventListener('mouseleave', event => {
+				this.controller.hidePetsList(event);
+			});
+		});
 	}
-	
+
+	addTopCategoriesListeners() {
+		let topCategoriesContainer = this.elements.topCategoriesElement;
+		let pets = topCategoriesContainer.querySelectorAll('.pet');
+
+		Array.from(pets).forEach(pet => {
+			pet.addEventListener('click', event => {
+				this.controller.onTopPetSelected(event);
+			});
+		});
+	}
+
+	displaySelectedCategory(petsToDisplay) {
+		const petsList = this.createPetsList(petsToDisplay);
+		let petsContainer = this.elements.petsContainerElement;
+		const isDisabled = petsContainer.classList.contains('disabled');
+
+		petsContainer.innerHTML = '';
+		petsContainer.appendChild(petsList);
+
+		if (isDisabled) {
+			petsContainer.classList.toggle('disabled');
+		}
+	}
+
+	displayPetInfo(pet) {
+		let petInfoContainer = this.elements.petDetailsElement;
+		console.log(pet);
+	}
+
+	hideElement(element) {
+		element.classList.add('disabled');
+	}
+
 	getElement(query) {
 
 		return this.mainElement.querySelector(query);

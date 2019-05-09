@@ -1,0 +1,92 @@
+body, html {
+	width: 100%;
+	height: 100%;
+	font-family: sans-serif;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.petshop-container {
+	margin-left: 15%;
+	height: 90%;
+	width: 70%;
+	border: 1px solid #000;
+	background: rgb(194, 224, 217);
+}
+
+.top-categories {
+	margin-left: 25%;
+	width: 50%;
+	padding: 5px 0;
+	display: flex;
+	justify-content: space-around;
+	max-height: 300px;
+}
+
+.pets-container-main {
+	margin-top: 20px;
+}
+
+.main-categories {
+	margin-left: 10%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.category, .pet {
+	color: #fff;
+}
+
+.top-category {
+	text-align: center;
+	background: rgb(39, 173, 250);
+	padding: 0 10px;
+}
+
+.top-category .pet:hover {
+	background: rgb(146, 211, 248);
+}
+
+.main-category {
+	width: 100%;
+	padding: 0 5px;
+	text-align: center;
+	background: rgb(10, 177, 60);
+}
+
+.main-category:hover {
+	cursor: pointer;
+	background: rgb(109, 235, 147);
+}
+
+.pets-container {
+	height: auto;
+	margin: 0 5px;
+	background: rgb(109, 235, 147);
+	text-align: center;
+	padding: 0 5px;
+}
+
+.pets-container .pet {
+	color: #000;
+}
+
+.pets-container .pet:hover {
+	background: rgb(211, 247, 221);
+}
+
+.pet:hover {
+	cursor: pointer;
+}
+
+.disabled {
+	display: none;
+}
+

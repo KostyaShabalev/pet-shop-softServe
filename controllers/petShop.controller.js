@@ -20,15 +20,10 @@ export class PetShopController {
 
 		petsStoringPromise
 			.then(animals => {
-        this.storeAnimals(animals);
 				this.fillTopCategories();
         this.renderCategories(this.petShopModel.categories);
 			});
 	}
-
-	storeAnimals(animals) {
-    this.petShopModel.sortRecievedAnimals(animals);
-  }
   
   fillTopCategories() {
     const topCategories = this.petShopModel.categories.topCategories;
@@ -83,8 +78,53 @@ export class PetShopController {
 		this.petShopView.renderCategories(categories);
 	}
 
-	onClick(event) {
-		console.log(event.target);
+	displayPetsList(event) {
+		const currentElement = event.target;
+		const mainCategories = this.petShopModel.categories.mainCategories;
+		const selectedCategory = this.getSelectedCategory(mainCategories, currentElement);
+		const petsToDisplay = mainCategories[selectedCategory];
+
+		this.petShopView.displaySelectedCategory(petsToDisplay);
+	}
+
+	getSelectedCategory(mainCategories, element) {
+		for (let category in mainCategories) {
+			if ( element.classList.contains(category) ) {
+				
+				return category;
+			}
+		}
+	}
+
+	onTopPetSelected(event) {
+		const petStore = this.petShopModel.petStore;
+		const eventPath = event.path || event.composedPath();
+		let path = 0;
+
+		while (!eventPath[path].classList.contains('pet')) {
+			path++;
+		}
+
+		const selectedPetElement = eventPath[path];
+
+		const petToDisplay = petStore.find(pet => {
+
+			return pet.id.toString() === selectedPetElement.id;
+		});
+
+		this.petShopView.displayPetInfo(petToDisplay);
+	}
+
+	hidePetsList(event) {
+		const goalElement = event.relatedTarget;
+		const isGoalElementOuter = !( goalElement.classList.contains('pets-container') ||
+			goalElement.classList.contains('pets-list') );
+
+		if ( isGoalElementOuter ) {
+			const petsContainer = this.petShopView.elements.petsContainerElement;
+
+			this.petShopView.hideElement(petsContainer);
+		}
 	}
 
 }
