@@ -3,47 +3,76 @@
 		"cats": [
 			{
 				"name": "FirstCat",
-				"breed": "Abyssinian",
 				"isFluffy": false,
-				"color": "fawn",
-				"price": 1.50
+				"color": "white",
+				"price": 2.50
 			},
 			{
 				"name": "SecondCat",
-				"breed": "sdfsdfg",
+				"isFluffy": true,
+				"color": "black",
+				"price": 3.70
+			},
+			{
+				"name": "ThirdCat",
+				"isFluffy": true,
+				"color": "grey",
+				"price": 3.10
+			},
+			{
+				"name": "ForthCat",
+				"isFluffy": false,
+				"color": "blue",
+				"price": 4.50
+			},
+			{
+				"name": "FifthCat",
 				"isFluffy": true,
 				"color": "sadf",
-				"price": 3.50
+				"price": 4.10
 			}
 		],
 		"dogs": [
 			{
 				"name": "FirstDog",
-				"breed": "Abyssinian",
-				"color": "fawn",
-				"price": 1.50
+				"color": "black",
+				"price": 5.50
 			},
 			{
 				"name": "SecondDog",
-				"breed": "sdfsdfg",
-				"color": "sadf",
-				"price": 3.50
+				"color": "white",
+				"price": 5.50
+			},
+			{
+				"name": "ThirdDog",
+				"color": "brown",
+				"price": 7.50
+			},
+			{
+				"name": "ForthDog",
+				"color": "grey",
+				"price": 4.05
 			}
 		],
 		"hamsters": [
 			{
-				"name": "FirstHumster",
-				"breed": "Abyssinian",
 				"isFluffy": false,
-				"color": "fawn",
+				"color": "white",
 				"price": 1.50
 			},
 			{
-				"name": "SecondHumster",
-				"breed": "sdfsdfg",
 				"isFluffy": true,
-				"color": "sadf",
-				"price": 3.50
+				"color": "black",
+				"price": 1.50
+			},
+			{
+				"isFluffy": false,
+				"color": "brown",
+				"price": 1.50
+			},{
+				"isFluffy": true,
+				"color": "white",
+				"price": 1.50
 			}
 		]
 	}
