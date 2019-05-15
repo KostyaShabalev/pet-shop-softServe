@@ -11,28 +11,29 @@ export class PetShopController {
 	}
 
 	initiatePetShop() {
-		const animalCategories = this.fetchAnimalCategories();
-		const petsToStore = this.transformAnimalsIntoPets(animalCategories);
+		this.fetchAnimalCategories()
+			.then(response => {
 
-		this.storePets(petsToStore);
-		this.fillTopCategories();
-		this.renderMainElements();
-		this.addMainListeners();
+				return response.json();
+			})
+			.then(data => {
+				const animalCategories = data.categories;
+				const petsToStore = this.transformAnimalsIntoPets(animalCategories);
+
+				this.storePets(petsToStore);
+				this.fillTopCategories();
+				this.renderMainElements();
+				this.addMainListeners();
+			})
+			.catch(error => {
+				alert(error);
+			});
 	}
 
 	fetchAnimalCategories() {
-		let fetchedAnimals;
-		let animalsRequest = new XMLHttpRequest();
+		const url = 'https://kostyashabalev.github.io/pet-shop/assets/pets.json';
 
-		animalsRequest.open('GET', '../assets/pets.json', false);
-
-		animalsRequest.onload = function () {
-			fetchedAnimals = JSON.parse(this.response).categories;
-		}
-
-		animalsRequest.send();
-
-		return fetchedAnimals;
+		return fetch(url);
 	}
 
 	transformAnimalsIntoPets(animalCategories) {
